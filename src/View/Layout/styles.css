@@ -6,16 +6,26 @@
   flex: 1;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: baseline;
   padding: 10px 20px;
   box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.24);
 }
 
+.header > h2 {
+  text-transform: uppercase;
+  color: #400610;
+  letter-spacing: 10px;
+}
+
 .menu > a {
   text-decoration: none;
-  color: #000;
-  margin-right: 10px;
+  color: #400610;
+  font-weight: 600;
+}
+
+.menu > a:hover {
+  color: #8c6b4d;
 }
 
 .content {
@@ -26,9 +36,11 @@
 .footer {
   flex: 1;
   width: 100%;
+  color: #400610;
+  font-weight: 600;
   text-align: center;
-  padding: 15px;
-  position: fixed;
+  padding: 15px 0;
   bottom: 0;
+  position: absolute;
   box-shadow: 0px -1px 5px 1px rgba(0, 0, 0, 0.24);
 }

@@ -14,7 +14,9 @@ export default class Layout extends Component {
           <div className="header">
             <h2>LiveD'Wine</h2>
             <nav className="menu">
-              <Link to="/">Home</Link>
+              <Link to="/" style={{ marginRight: "24px" }}>
+                Home
+              </Link>
               <Link to="/about">Sobre</Link>
             </nav>
           </div>

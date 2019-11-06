@@ -1,5 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { Spin, Icon } from "antd";
 import "./styles.css";
+
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 // import { Container } from './styles';
 
 export default class DetailPage extends Component {
@@ -8,11 +13,25 @@ export default class DetailPage extends Component {
 
     this.state = {
       wine: {},
-      loading: true
+      contentBased: [],
+      loading: true,
+      size: 10
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const name = window.location.pathname.split("/")[2];
+    const resultWine = await axios.get(
+      `http://livedwine-java-api.ngrok.io/v1/wines/name/${name}`
+    );
+    const resultContentBased = await axios.get(
+      "http://livedwine-python-api.ngrok.io/v1/recommendations/based-content/wines?wine_key=Alqueve Branco 2017&size=10"
+    );
+    console.log("porps", this.props);
+    this.setState({
+      contentBased: resultContentBased.data,
+      wine: resultWine
+    });
     setTimeout(
       () =>
         this.setState({
@@ -37,16 +56,33 @@ export default class DetailPage extends Component {
             visualization: 1
           }
         }),
-      2000
+      1000
+    );
+  }
+
+  loadMoreContent() {
+    const { size } = this.state;
+    this.setState(
+      {
+        size: size + 10
+      },
+      async () => {
+        const resultContentBased = await axios.get(
+          `http://livedwine-python-api.ngrok.io/v1/recommendations/based-content/wines?wine_key=Anciano Gran Reserva 10 years Valdepeñas D.O. 2007&size=${size}`
+        );
+        this.setState({
+          contentBased: resultContentBased.data
+        });
+      }
     );
   }
 
   render() {
-    const { loading, wine } = this.state;
+    const { contentBased, loading, wine } = this.state;
     return (
       <div className="detail-container">
         {loading ? (
-          <p>Carregando...</p>
+          <Spin indicator={antIcon} />
         ) : (
           <div className="detail-content">
             <img
@@ -56,7 +92,7 @@ export default class DetailPage extends Component {
             />
             <div className="wine-details">
               <span className="wine-name">{wine.name}</span>
-              <ul class="wine-attributes">
+              <ul className="wine-attributes">
                 <li>
                   <span>Tipo de vinho:</span> {wine.type}
                 </li>
@@ -66,6 +102,8 @@ export default class DetailPage extends Component {
                 <li>
                   <span>Teor alcoolico:</span> {wine.alcoholContent}%
                 </li>
+              </ul>
+              <ul className="wine-attributes">
                 <li>
                   <span>Pais:</span> {wine.country}
                 </li>
@@ -75,6 +113,8 @@ export default class DetailPage extends Component {
                 <li>
                   <span>Produtor:</span> {wine.producer}
                 </li>
+              </ul>
+              <ul className="wine-attributes">
                 <li>
                   <span>Safra:</span> {wine.harvest}
                 </li>
@@ -88,6 +128,27 @@ export default class DetailPage extends Component {
             </div>
           </div>
         )}
+        <div className="recommended-container">
+          <h3 className="recommended-title">Recomendações por conteúdo</h3>
+          <ul className="wine-list">
+            {contentBased.map(wine => (
+              <li className="wine-item">
+                <Link to={`/wines/${wine.wine_id}`}>
+                  <div className="item-container">
+                    <img
+                      src="https://res.cloudinary.com/evino/image/upload/q_auto:good,fl_progressive:steep,f_auto,dpr_1.0,h_640/v1/products/1697090-standing-front.png"
+                      className="recommended-img"
+                    />
+                    {wine.wine_name}
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <button onClick={() => this.loadMoreContent(10)}>
+            Carregar mais
+          </button>
+        </div>
       </div>
     );
   }

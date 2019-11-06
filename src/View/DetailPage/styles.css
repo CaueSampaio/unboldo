@@ -1,5 +1,6 @@
 .detail-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -18,29 +19,57 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 45px;
 }
 
 .wine-name {
   font-size: 32px;
-  color: red;
+  margin-top: 35px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  color: #400610;
 }
 
 .wine-attributes {
+  width: 100%;
   display: flex;
+  justify-content: space-between;
   padding-left: 0;
   margin-right: 0;
   flex-wrap: wrap;
-  max-width: 70%;
   list-style: none;
 }
 
 .wine-attributes > li {
-  margin-right: 25px;
-  margin-bottom: 25px;
-  width: 200px;
+  margin: 0px 50px;
 }
 
 .wine-attributes > li > span {
   font-weight: 600;
+  color: #f24738;
+}
+
+.recommended-container {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.recommended-title {
+  margin-left: 2%;
+  text-transform: uppercase;
+  color: #400610;
+  font-weight: 500;
+}
+
+.wine-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.wine-item {
+  display: flex;
+  justify-content: center;
+  width: 33%;
 }
