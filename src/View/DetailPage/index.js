@@ -93,7 +93,7 @@ export default class DetailPage extends Component {
         ) : (
           <div className="detail-content">
             <img
-              src="https://res.cloudinary.com/evino/image/upload/q_auto:good,fl_progressive:steep,f_auto,dpr_1.0,h_640/v1/products/1697090-standing-front.png"
+              src={`../../assets/images/${wine.id}.png`}
               alt="imagem"
               width="75px"
             />
@@ -154,7 +154,7 @@ export default class DetailPage extends Component {
                     >
                       <div className="item-container">
                         <img
-                          src="https://res.cloudinary.com/evino/image/upload/q_auto:good,fl_progressive:steep,f_auto,dpr_1.0,h_640/v1/products/1697090-standing-front.png"
+                          src={`../../assets/images/${wine.id}`}
                           className="recommended-img"
                         />
                         <h5 className="recommended-name">{wine.wine_name}</h5>
@@ -170,7 +170,7 @@ export default class DetailPage extends Component {
                 {userBased.map(wine => (
                   <li className="wine-item" onClick={() => this.changeWine()}>
                     <Link
-                      to={`/wines/${wine.wine_name}`}
+                      to={`../../assets/images/${wine.id}`}
                       className="recommended-link"
                     >
                       <div className="item-container">
