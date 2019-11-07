@@ -22,7 +22,7 @@ class Home extends Component {
   async componentDidMount() {
     const { page } = this.state;
     const response = await axios.get(
-      `http://livedwine-java-api.ngrok.io/v1/wines?size=12&page=${page}`
+      `http://localhost:8080/v1/wines?size=12&page=${page}`
     );
     console.log(response);
     this.setState({
@@ -40,7 +40,7 @@ class Home extends Component {
       },
       async () => {
         const response = await axios.get(
-          `http://livedwine-java-api.ngrok.io/v1/wines?size=12&page=${page}`
+          `http://localhost:8080/v1/wines?size=12&page=${page}`
         );
         const {
           data: { content }

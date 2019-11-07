@@ -23,13 +23,13 @@ export default class DetailPage extends Component {
   async componentDidMount() {
     const name = window.location.pathname.split("/")[2];
     const resultWine = await axios.get(
-      `http://livedwine-java-api.ngrok.io/v1/wines/name/${name}`
+      `http://localhost:8080/v1/wines/name/${name}`
     );
     const resultContentBased = await axios.get(
-      `http://livedwine-python-api.ngrok.io/v1/recommendations/based-content/wines?wine_key=${name}&size=5`
+      `http://127.0.0.1:80/v1/recommendations/based-content/wines?wine_key=${name}&size=5`
     );
     const resultUserBased = await axios.get(
-      `http://livedwine-python-api.ngrok.io/v1/recommendations/collaborative/wines?wine_key=${name}`
+      `http://127.0.0.1:80/v1/recommendations/collaborative/wines?wine_key=${name}`
     );
     this.setState({
       contentBased: resultContentBased.data,
@@ -45,13 +45,13 @@ export default class DetailPage extends Component {
     });
     const name = window.location.pathname.split("/")[2];
     const resultWine = await axios.get(
-      `http://livedwine-java-api.ngrok.io/v1/wines/name/${name}`
+      `http://localhost:8080/v1/wines/name/${name}`
     );
     const resultContentBased = await axios.get(
-      `http://livedwine-python-api.ngrok.io/v1/recommendations/based-content/wines?wine_key=${name}&size=5`
+      `http://127.0.0.1:80/v1/recommendations/based-content/wines?wine_key=${name}&size=5`
     );
     const resultUserBased = await axios.get(
-      `http://livedwine-python-api.ngrok.io/v1/recommendations/collaborative/wines?wine_key=${name}`
+      `http://127.0.0.1:80/v1/recommendations/collaborative/wines?wine_key=${name}`
     );
     this.setState({
       contentBased: resultContentBased.data,
