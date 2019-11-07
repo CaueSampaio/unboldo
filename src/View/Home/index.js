@@ -63,11 +63,13 @@ class Home extends Component {
           <div className="wines-container">
             {wines.map(wine => (
               <Link to={`wines/${wine.name}`} className="wines-content">
-                <img
-                  className="wine-img"
-                  src={`../../assets/images/${wine.id}.png`}
-                  alt="Foto do vinho"
-                />
+                <div className="wine-img-container">
+                  <img
+                    className="wine-img"
+                    src={`/images/${wine.id}.png`}
+                    alt="Foto do vinho"
+                  />
+                </div>
                 <div className="wine-footer">
                   <h3>{wine.name}</h3>
                   <h4>

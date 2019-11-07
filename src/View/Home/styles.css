@@ -27,10 +27,14 @@
   cursor: pointer;
 }
 
-.wine-img {
+.wine-img-container {
   width: 100%;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.wine-img {
   height: 200px;
-  background-color: #ddd;
 }
 
 .wine-footer > h3 {
