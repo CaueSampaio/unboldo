@@ -14,6 +14,7 @@ export default class DetailPage extends Component {
     this.state = {
       wine: {},
       contentBased: [],
+      userBased: [],
       loading: true,
       size: 10
     };
@@ -25,39 +26,44 @@ export default class DetailPage extends Component {
       `http://livedwine-java-api.ngrok.io/v1/wines/name/${name}`
     );
     const resultContentBased = await axios.get(
-      "http://livedwine-python-api.ngrok.io/v1/recommendations/based-content/wines?wine_key=Alqueve Branco 2017&size=10"
+      `http://livedwine-python-api.ngrok.io/v1/recommendations/based-content/wines?wine_key=${name}&size=5`
     );
-    console.log("porps", this.props);
+    const resultUserBased = await axios.get(
+      `http://livedwine-python-api.ngrok.io/v1/recommendations/collaborative/wines?wine_key=${name}`
+    );
     this.setState({
       contentBased: resultContentBased.data,
-      wine: resultWine
+      userBased: resultUserBased.data,
+      wine: resultWine.data,
+      loading: false
     });
-    setTimeout(
-      () =>
-        this.setState({
-          loading: false,
-          wine: {
-            id: "4239296B-11A4-4F49-9967-A46D0E27F76B",
-            name: "Punta de diablo",
-            type: 5,
-            country: "Argentina",
-            region: "Buenos Aires",
-            alcoholContent: "1",
-            producer: "caseiro",
-            volume: 5,
-            grape: "1",
-            harvest: "30",
-            somelier: "somelier01",
-            harmonization: "1",
-            categoryId: "1E6505C4-47ED-421F-B6B6-4E68EB2CEF35",
-            category: null,
-            particulars: null,
-            like: true,
-            visualization: 1
-          }
-        }),
-      1000
+  }
+
+  async changeWine() {
+    this.setState({
+      loading: true
+    });
+    const name = window.location.pathname.split("/")[2];
+    const resultWine = await axios.get(
+      `http://livedwine-java-api.ngrok.io/v1/wines/name/${name}`
     );
+    const resultContentBased = await axios.get(
+      `http://livedwine-python-api.ngrok.io/v1/recommendations/based-content/wines?wine_key=${name}&size=5`
+    );
+    const resultUserBased = await axios.get(
+      `http://livedwine-python-api.ngrok.io/v1/recommendations/collaborative/wines?wine_key=${name}`
+    );
+    this.setState({
+      contentBased: resultContentBased.data,
+      userBased: resultUserBased.data,
+      wine: resultWine.data,
+      loading: false
+    });
+  }
+
+  shouldComponentUpdate() {
+    this.forceUpdate();
+    return true;
   }
 
   loadMoreContent() {
@@ -78,7 +84,8 @@ export default class DetailPage extends Component {
   }
 
   render() {
-    const { contentBased, loading, wine } = this.state;
+    const { contentBased, userBased, loading, wine } = this.state;
+    console.log(wine);
     return (
       <div className="detail-container">
         {loading ? (
@@ -90,65 +97,96 @@ export default class DetailPage extends Component {
               alt="imagem"
               width="75px"
             />
+            <span className="wine-name">{wine.name}</span>
             <div className="wine-details">
-              <span className="wine-name">{wine.name}</span>
-              <ul className="wine-attributes">
-                <li>
-                  <span>Tipo de vinho:</span> {wine.type}
-                </li>
-                <li>
-                  <span>Volume:</span> {wine.volume}mL
-                </li>
-                <li>
-                  <span>Teor alcoolico:</span> {wine.alcoholContent}%
-                </li>
-              </ul>
-              <ul className="wine-attributes">
-                <li>
+              <div className="wine-attributes">
+                <div className="attribute">
                   <span>Pais:</span> {wine.country}
-                </li>
-                <li>
+                </div>
+                <div className="attribute">
                   <span>Região:</span> {wine.region}
-                </li>
-                <li>
+                </div>
+                <div className="attribute">
                   <span>Produtor:</span> {wine.producer}
-                </li>
-              </ul>
-              <ul className="wine-attributes">
-                <li>
+                </div>
+                <div className="attribute">
                   <span>Safra:</span> {wine.harvest}
-                </li>
-                <li>
-                  <span>Uva:</span> {wine.grape}
-                </li>
-                <li>
-                  <span>Harmonização:</span> {wine.harmonization}
-                </li>
-              </ul>
+                </div>
+              </div>
+              <div className="wine-attributes">
+                <div className="attribute">
+                  <span>Tipo de vinho:</span> {wine.type}
+                </div>
+                <div className="attribute">
+                  <span>Volume:</span> {wine.volume}mL
+                </div>
+                <div className="attribute">
+                  <span>Teor alcoolico:</span> {wine.alcoholContent}%
+                </div>
+              </div>
             </div>
+            {wine.grape.length > 0 ||
+              (wine.harmonization.length > 0 && (
+                <div className="wine-specifies">
+                  <div className="wine-attributes">
+                    <h3 className="tasty">Paladar: </h3>
+                    <div className="attribute">
+                      <span>Uva:</span> {wine.grape.join(", ")}
+                    </div>
+                    <div className="attribute">
+                      <span>Harmonização:</span> {wine.harmonization.join(", ")}
+                    </div>
+                  </div>
+                </div>
+              ))}
           </div>
         )}
-        <div className="recommended-container">
-          <h3 className="recommended-title">Recomendações por conteúdo</h3>
-          <ul className="wine-list">
-            {contentBased.map(wine => (
-              <li className="wine-item">
-                <Link to={`/wines/${wine.wine_id}`}>
-                  <div className="item-container">
-                    <img
-                      src="https://res.cloudinary.com/evino/image/upload/q_auto:good,fl_progressive:steep,f_auto,dpr_1.0,h_640/v1/products/1697090-standing-front.png"
-                      className="recommended-img"
-                    />
-                    {wine.wine_name}
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <button onClick={() => this.loadMoreContent(10)}>
-            Carregar mais
-          </button>
-        </div>
+        {!loading && (
+          <>
+            <div className="recommended-container">
+              <h3 className="recommended-title">Recomendações por conteúdo</h3>
+              <ul className="wine-list">
+                {contentBased.map(wine => (
+                  <li className="wine-item" onClick={() => this.changeWine()}>
+                    <Link
+                      to={`/wines/${wine.wine_name}`}
+                      className="recommended-link"
+                    >
+                      <div className="item-container">
+                        <img
+                          src="https://res.cloudinary.com/evino/image/upload/q_auto:good,fl_progressive:steep,f_auto,dpr_1.0,h_640/v1/products/1697090-standing-front.png"
+                          className="recommended-img"
+                        />
+                        <h5 className="recommended-name">{wine.wine_name}</h5>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="recommended-container">
+              <h3 className="recommended-title">Recomendações por usuarios</h3>
+              <ul className="wine-list">
+                {userBased.map(wine => (
+                  <li className="wine-item" onClick={() => this.changeWine()}>
+                    <Link
+                      to={`/wines/${wine.wine_name}`}
+                      className="recommended-link"
+                    >
+                      <div className="item-container">
+                        <img
+                          src="https://res.cloudinary.com/evino/image/upload/q_auto:good,fl_progressive:steep,f_auto,dpr_1.0,h_640/v1/products/1697090-standing-front.png"
+                          className="recommended-img"
+                        />
+                        <h5 className="recommended-name">{wine.wine_name}</h5>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
       </div>
     );
   }
