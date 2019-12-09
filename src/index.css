@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@font-face {
+  font-family: "Katherine Free";
+  src: url("./assets/fonts/KatherineFree.otf");
+  src: url("./assets/fonts/KatherineFree.otf") format("opentype");
+}

@@ -1,0 +1,185 @@
+.agendamento-container {
+  position: relative;
+  margin-top: 5%;
+}
+
+.ant-tabs {
+  -webkit-box-sizing: border-box;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: hsla(0, 0%, 100%, 1);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  position: relative;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.ant-tabs-bar {
+  margin: 0 0 16px;
+  border-bottom: 0px solid #e8e8e8;
+  outline: none;
+}
+
+.ant-tabs-nav-container {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-bottom: -1px;
+  overflow: hidden;
+  font-size: 24px;
+  line-height: 1.5;
+  white-space: nowrap;
+  zoom: 1;
+}
+
+.ant-tabs-ink-bar ant-tabs-ink-bar-animated {
+  display: block;
+  transform: translate3d(0px, 0px, 0px);
+  width: 33%;
+}
+
+.ant-tabs-nav .ant-tabs-tab-active {
+  color: #fff;
+  font-weight: 500;
+}
+
+.ant-tabs-ink-bar {
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  z-index: 1;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 2px;
+  background-color: #ffffff;
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+
+.ant-tabs-nav .ant-tabs-tab:hover {
+  color: #fff;
+}
+
+.selecione-dia {
+  position: relative;
+  left: -35%;
+  top: 35px;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.ant-fullcalendar {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  border-top: 2px solid #ffffff;
+  outline: none;
+}
+
+.ant-fullcalendar {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(255, 255, 255, 1);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  border-top: 2px solid #ffffff;
+  outline: none;
+}
+
+.ant-fullcalendar-value {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+  padding: 0;
+  color: rgba(255, 255, 255, 1);
+  line-height: 24px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 2px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.ant-radio-button-wrapper {
+  position: relative;
+  color: #fff;
+  background: #000;
+  border: 2px solid #fff;
+}
+
+.ant-radio-button-wrapper:hover {
+  position: relative;
+  color: #000;
+  background: #fff;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
+  border-color: #ffffff;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #000;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  z-index: 1;
+  color: #000000;
+  background: #fff;
+  border-color: #1890ff;
+  -webkit-box-shadow: -1px 0 0 0 #1890ff;
+  box-shadow: -1px 0 0 0 #1890ff;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  z-index: 1;
+  color: #000000;
+  background: #fff;
+  border-color: #ffffff;
+  -webkit-box-shadow: -1px 0 0 0 #1890ff;
+  box-shadow: -1px 0 0 0 #ffffff;
+}
+
+.ant-fullcalendar-month-panel-selected-cell .ant-fullcalendar-value,
+.ant-fullcalendar-selected-day .ant-fullcalendar-value {
+  color: #000;
+  background: #ffffff;
+}
+
+.ant-fullcalendar-month-panel-current-cell .ant-fullcalendar-value,
+.ant-fullcalendar-today .ant-fullcalendar-value {
+  -webkit-box-shadow: 0 0 0 1px #fff inset;
+  box-shadow: inset 0 0 0 1px #ffffff;
+}
+
+.horario {
+  border: 2px solid #fff;
+}
+
+.horario > ol {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

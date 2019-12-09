@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Row, Col } from "antd";
 
 import "./styles.css";
 
@@ -11,15 +12,28 @@ export default class Layout extends Component {
     return (
       <>
         <div className="container">
-          <div className="header">
-            <h2>LiveD'Wine</h2>
-            <nav className="menu">
-              <Link to="/" style={{ marginRight: "24px" }}>
-                Home
-              </Link>
-              <Link to="/about">Sobre</Link>
-            </nav>
-          </div>
+          <header className="header">
+            <Row type="flex" justify="center" align="center">
+              <Col className="header-col" xs={24} md={24} lg={6}>
+                <h2 className="logo-img">UnBoldo</h2>
+              </Col>
+              <Col className="header-col-menu" xs={24} md={24} lg={12}>
+                <nav className="menu">
+                  <Link to="/" style={{ marginRight: "30px" }}>
+                    Home
+                  </Link>
+                  <Link to="/agendament" style={{ marginRight: "30px" }}>
+                    Agendamento
+                  </Link>
+                  <Link to="/agendament" style={{ marginRight: "30px" }}>
+                    Institucional
+                  </Link>
+                  <Link to="/agendament">Contato</Link>
+                </nav>
+              </Col>
+              <Col xs={24} lg={6} />
+            </Row>
+          </header>
           <div className="content">{children}</div>
           <div className="footer">
             <span>Copyright 2019 - Live D Wine</span>

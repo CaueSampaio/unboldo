@@ -1,8 +1,53 @@
 .home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  margin-top: 40px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
+
+.video-wrapper {
+  position: relative;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+
+.background-video {
+  width: 100%;
+  height: 300%;
+}
+
+.schedule-button {
+  position: absolute;
+  top: calc(50% - 38px);
+  left: calc(50% - 125px);
+  width: 250px;
+  height: 76px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  border: 0;
+  font-weight: 500;
+  letter-spacing: 3px;
+  font-size: 18px;
+  border: 2px solid #fff;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.mosaico {
+  position: relative;
+  top: -6px;
+}
+
+.mosaico-img-container {
+  text-align: center;
+  overflow: hidden;
+}
+
+.mosaico-img {
+  max-width: 100%;
+  object-fit: cover;
 }
