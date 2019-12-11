@@ -22,7 +22,7 @@ export default class Layout extends Component {
                   <Link to="/" style={{ marginRight: "30px" }}>
                     Home
                   </Link>
-                  <Link to="/agendament" style={{ marginRight: "30px" }}>
+                  <Link to="/agendamento" style={{ marginRight: "30px" }}>
                     Agendamento
                   </Link>
                   <Link to="/agendament" style={{ marginRight: "30px" }}>

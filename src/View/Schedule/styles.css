@@ -1,95 +1,76 @@
 .agendamento-container {
   position: relative;
-  margin-top: 5%;
+  padding: 20px 60px;
+  margin: 80px 50px 0px 50px;
 }
 
-.ant-tabs {
-  -webkit-box-sizing: border-box;
+.ant-select-selection {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: #2d2d2d;
+  color: #fff;
+  border: 0px solid #d9d9d9;
+  border-radius: 0px;
+  height: 44px !important;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ant-select-selection:hover {
+  border: 0px;
+}
+
+.ant-select-arrow {
+  display: inline-block;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
   text-align: center;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  color: hsla(0, 0%, 100%, 1);
-  font-size: 14px;
-  font-variant: tabular-nums;
-  line-height: 1.5;
-  list-style: none;
-  -webkit-font-feature-settings: "tnum";
-  font-feature-settings: "tnum";
-  position: relative;
-  overflow: hidden;
-  zoom: 1;
-}
-
-.ant-tabs-bar {
-  margin: 0 0 16px;
-  border-bottom: 0px solid #e8e8e8;
-  outline: none;
-}
-
-.ant-tabs-nav-container {
-  position: relative;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  margin-bottom: -1px;
-  overflow: hidden;
-  font-size: 24px;
-  line-height: 1.5;
-  white-space: nowrap;
-  zoom: 1;
-}
-
-.ant-tabs-ink-bar ant-tabs-ink-bar-animated {
-  display: block;
-  transform: translate3d(0px, 0px, 0px);
-  width: 33%;
-}
-
-.ant-tabs-nav .ant-tabs-tab-active {
-  color: #fff;
-  font-weight: 500;
-}
-
-.ant-tabs-ink-bar {
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   position: absolute;
-  bottom: 1px;
-  left: 0;
-  z-index: 1;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  height: 2px;
-  background-color: #ffffff;
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
+  top: 50%;
+  right: 11px;
+  margin-top: -6px;
+  color: rgba(255, 255, 255, 1);
+  font-size: 12px;
+  line-height: 1;
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
 }
 
-.ant-tabs-nav .ant-tabs-tab:hover {
-  color: #fff;
+.ant-radio-group {
+  display: none;
 }
 
-.selecione-dia {
+.ant-radio-button-wrapper {
   position: relative;
-  left: -35%;
-  top: 35px;
-  font-size: 16px;
-  letter-spacing: 2px;
+  color: #fff;
+  background: #2d2d2d;
+  border: 0px;
 }
 
-.ant-fullcalendar {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 14px;
-  font-variant: tabular-nums;
-  line-height: 1.5;
-  list-style: none;
-  -webkit-font-feature-settings: "tnum";
-  font-feature-settings: "tnum";
-  border-top: 2px solid #ffffff;
-  outline: none;
+.field-label {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  color: #fff;
+  padding: 15px 25px;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  width: 100%;
+  border-bottom: 2px solid #fff;
+  width: fit-content;
 }
 
 .ant-fullcalendar {
@@ -104,21 +85,27 @@
   list-style: none;
   -webkit-font-feature-settings: "tnum";
   font-feature-settings: "tnum";
-  border-top: 2px solid #ffffff;
+  border-top: 0px solid #ffffff;
   outline: none;
 }
 
+.ant-fullcalendar-header {
+  padding: 11px 42px 11px 0;
+  text-align: center;
+}
+
 .ant-fullcalendar-value {
-  display: block;
-  width: 24px;
-  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
   margin: 0 auto;
   padding: 0;
   color: rgba(255, 255, 255, 1);
   line-height: 24px;
   background: rgba(0, 0, 0, 0);
   border-radius: 2px;
-  -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 
@@ -173,13 +160,156 @@
 }
 
 .horario {
-  border: 2px solid #fff;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .horario > ol {
   list-style: none;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
+  padding: 11px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.horario > ol > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px 0px;
+  width: 300px;
+  height: 50px;
+  border: 2px solid #fff;
+  transition: ease 0.3s all;
+}
+
+.horario > ol > li:hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px 0px;
+  width: 300px;
+  height: 50px;
+  border: 2px solid #fff;
+  background-color: #fff;
+  color: #000;
+}
+
+.ant-form {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  margin-top: 40px;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+}
+
+.ant-form-item-label > label {
+  color: rgb(255, 255, 255);
+}
+
+.ant-form-item-required:before {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: "*";
+}
+
+.ant-form-item {
+  text-align: left;
+  position: relative;
+  height: auto;
+  margin-right: 0;
+  margin-left: 0;
+  zoom: 1;
+  display: block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.ant-form-item-label {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 39.9999px;
+  white-space: initial;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.ant-fullcalendar-value:active {
+  color: #fff;
+  background: #d8d8d8;
+}
+
+.ant-fullcalendar-last-month-cell .ant-fullcalendar-value,
+.ant-fullcalendar-next-month-btn-day .ant-fullcalendar-value {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.ant-fullcalendar-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  padding: 0;
+  color: rgba(255, 255, 255, 1);
+  line-height: 24px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.ant-fullcalendar-value:hover {
+  background: #888888;
+  cursor: pointer;
+}
+
+.ant-input {
+  box-sizing: border-box;
+  margin: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 32px;
+  padding: 4px 11px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #fff0;
+  background-image: none;
+  border: 0;
+  border-bottom: 1px solid #d9d9d9;
+  border-radius: 0px;
+  transition: all 0.3s;
+}
+
+.ant-input:focus,
+.ant-input:hover {
+  border-color: #ffffff;
+  border-right-width: 1px !important;
+}
+
+.open-instructions {
+  cursor: pointer;
+  color: rgb(245, 229, 9);
 }
