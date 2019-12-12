@@ -38,7 +38,7 @@ class Home extends Component {
             <Col xs={24} md={12} className="mosaico-img-container">
               <img
                 className="mosaico-img"
-                src="../../assets/images/just-have-sun.jpg"
+                src="../../assets/images/just-have-sun.png"
                 alt="back"
               />
             </Col>
@@ -47,7 +47,7 @@ class Home extends Component {
             <Col xs={24} md={12} className="mosaico-img-container">
               <img
                 className="mosaico-img"
-                src="../../assets/images/look-sunshine.jpg"
+                src="../../assets/images/look-sunshine.png"
                 alt="back"
               />
             </Col>
@@ -70,7 +70,7 @@ class Home extends Component {
             <Col xs={24} md={12} className="mosaico-img-container">
               <img
                 className="mosaico-img"
-                src="../../assets/images/meet-me.jpg"
+                src="../../assets/images/vitamin.png"
                 alt="back"
               />
             </Col>
@@ -79,7 +79,7 @@ class Home extends Component {
             <Col xs={24} md={12} className="mosaico-img-container">
               <img
                 className="mosaico-img"
-                src="../../assets/images/feel-like-sunshine.jpg"
+                src="../../assets/images/feel-like-sunshine.png"
                 alt="back"
               />
             </Col>
