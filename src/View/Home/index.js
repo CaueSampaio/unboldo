@@ -38,7 +38,7 @@ class Home extends Component {
             <Col xs={24} md={12} className="mosaico-img-container">
               <img
                 className="mosaico-img"
-                src="../../assets/images/just-have-sun.png"
+                src="../../assets/images/wave2.png"
                 alt="back"
               />
             </Col>
@@ -47,7 +47,7 @@ class Home extends Component {
             <Col xs={24} md={12} className="mosaico-img-container">
               <img
                 className="mosaico-img"
-                src="../../assets/images/look-sunshine.png"
+                src="../../assets/images/wave1.png"
                 alt="back"
               />
             </Col>

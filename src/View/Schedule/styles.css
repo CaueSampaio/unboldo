@@ -1,7 +1,7 @@
 .agendamento-container {
   position: relative;
-  padding: 20px 60px;
-  margin: 0px 50px 0px 50px;
+  padding: 0px 60px;
+  margin: 0px auto;
 }
 
 .ant-select-selection {
@@ -169,7 +169,7 @@
   list-style: none;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
   padding: 11px;
   font-size: 16px;
@@ -181,7 +181,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin: 10px 0px;
+  margin: 10px;
   width: 300px;
   height: 50px;
   background-color: #fff0;
@@ -212,7 +212,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin: 10px 0px;
+  margin: 10px;
   width: 300px;
   height: 50px;
   border: 2px solid #fff;
@@ -237,6 +237,8 @@
 
 .ant-form-item-label > label {
   color: rgb(255, 255, 255);
+  font-weight: 500;
+  font-family: "Lato", sans-serif;
 }
 
 .ant-form-item-required:before {
@@ -379,6 +381,12 @@
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0);
 }
 
+.has-error .form-control {
+  border-color: #d4c60f;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
 .has-error .form-control:focus {
   background: rgba(255, 255, 255, 0);
   border-bottom: 1px solid #fff;
@@ -438,7 +446,7 @@
   width: 100%;
   height: 100%;
   text-align: center;
-  background: #fafafa1a;
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   cursor: pointer;
@@ -527,6 +535,8 @@ a:hover {
 .submit-button {
   width: 270px;
   height: 70px;
+  margin-top: 10px;
+  margin-bottom: 30px;
   border-radius: 0px;
   font-size: 22px;
   font-family: "Lato", sans-serif;

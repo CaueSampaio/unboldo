@@ -25,10 +25,10 @@ export default class Layout extends Component {
                   <Link to="/agendamento" style={{ marginRight: "30px" }}>
                     Agendamento
                   </Link>
-                  <Link to="/agendament" style={{ marginRight: "30px" }}>
-                    Institucional
+                  <Link to="/sobre" style={{ marginRight: "30px" }}>
+                    Sobre
                   </Link>
-                  <Link to="/agendament">Contato</Link>
+                  <Link to="/contato">Contato</Link>
                 </nav>
               </Col>
               <Col xs={24} lg={6} />

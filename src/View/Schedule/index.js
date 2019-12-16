@@ -129,7 +129,7 @@ class Schedule extends Component {
                   position: "absolute",
                   top: 0,
                   left: 0,
-                  backgroundColor: "rgba(255,255,255,0.1)",
+                  backgroundColor: "rgba(255,255,255,0.0)",
                   height: "100%",
                   width: "100%",
                   display: "flex",
@@ -165,7 +165,7 @@ class Schedule extends Component {
             />
           </Col>
           <Col xs={24} md={24}>
-            <div className="field-label" style={{ marginTop: "40px" }}>
+            <div className="field-label" style={{ marginTop: "70px" }}>
               Selecione o horário
             </div>
             {isLoading && (
@@ -174,7 +174,7 @@ class Schedule extends Component {
                   position: "absolute",
                   top: 0,
                   left: 0,
-                  backgroundColor: "rgba(255,255,255,0.1)",
+                  backgroundColor: "rgba(255,255,255,0)",
                   height: "100%",
                   width: "100%",
                   display: "flex",
@@ -217,7 +217,7 @@ class Schedule extends Component {
             </div>
           </Col>
         </Row>
-        <Row style={{ marginTop: "20px" }}>
+        <Row style={{ marginTop: "40px" }}>
           <Col xs={24}>
             <div className="field-label">Responda o questionário</div>
             <p>
@@ -406,14 +406,17 @@ que deseja!"
             </Row>
           </Col>
         </Row>
-        <div className="field-label">Informações de pagamento</div>
+        <div className="field-label" style={{ marginTop: "30px" }}>
+          Informações de pagamento
+        </div>
         <Row type="flex" justify="space-around" align="middle">
-          <Col xs={24} md={24} lg={12}>
+          <Col xs={24} md={12} lg={24}>
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                margin: "15px 0px"
               }}
             >
               <Cards
