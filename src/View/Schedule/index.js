@@ -28,6 +28,7 @@ class Schedule extends Component {
     super(props);
 
     this.state = {
+      measureModalVisible: false,
       dates: [],
       selectedDate: "",
       cvc: "",
@@ -96,11 +97,18 @@ class Schedule extends Component {
     this.setState({ [field]: value }, () => console.log(this.state));
   };
 
+  handleToggleModal = () => {
+    const { measureModalVisible } = this.state;
+    this.setState({
+      measureModalVisible: !measureModalVisible
+    });
+  };
+
   render() {
     const {
       form: { getFieldDecorator }
     } = this.props;
-    const { dates, hour, isLoading } = this.state;
+    const { dates, hour, isLoading, measureModalVisible } = this.state;
     const props = {
       name: "file",
       multiple: true,
@@ -238,9 +246,7 @@ class Schedule extends Component {
                 um design único através de referências enviadas pelo cliente.{" "}
                 <span
                   className="open-instructions"
-                  onClick={() => {
-                    console.log("abriu");
-                  }}
+                  onClick={() => this.handleToggleModal()}
                 >
                   Clique aqui para ver instruções de medição.
                 </span>
@@ -462,8 +468,8 @@ que deseja!"
                         className="form-control"
                         placeholder="0000 0000 0000 0000"
                         data-mask="0000 0000 0000 0000"
-                        maxlength="19"
-                        autocomplete="off"
+                        maxLength="19"
+                        autoComplete="off"
                       ></input>
                     )}
                   </Form.Item>
@@ -483,7 +489,7 @@ que deseja!"
                         name="name"
                         className="form-control"
                         placeholder="Nome Sobrenome"
-                        autocomplete="off"
+                        autoComplete="off"
                         onChange={this.handleInputChange}
                         onFocus={this.handleInputFocus}
                       />
@@ -506,8 +512,8 @@ que deseja!"
                         className="form-control"
                         placeholder="MM/AA"
                         data-mask="00/00"
-                        maxlength="8"
-                        autocomplete="off"
+                        maxLength="8"
+                        autoComplete="off"
                         onChange={this.handleInputChange}
                         onFocus={this.handleInputFocus}
                       />
@@ -529,8 +535,8 @@ que deseja!"
                         name="cvc"
                         className="form-control"
                         placeholder="000"
-                        maxlength="4"
-                        autocomplete="off"
+                        maxLength="4"
+                        autoComplete="off"
                         onChange={this.handleInputChange}
                         onFocus={this.handleInputFocus}
                       />
@@ -546,6 +552,70 @@ que deseja!"
             Agendar
           </Button>
         </Row>
+        <Modal
+          title="COMO TIRAR MEDIDAS?"
+          visible={measureModalVisible}
+          centered
+          footer={null}
+          onCancel={this.handleToggleModal}
+        >
+          <Row gutter={16}>
+            <Col xs={24} lg={12}>
+              <div className="manequim-img-container">
+                <img
+                  className="manequim-img"
+                  alt="Manequim"
+                  src="../../assets/images/manequim-medidas.png"
+                />
+              </div>
+            </Col>
+            <Col xs={24} lg={12}>
+              <div className="manequim-text-container">
+                <p>
+                  <strong>Busto:</strong> Passe a fita métrica sobre a parte
+                  mais volumosa dos seios e por baixo dos braços.
+                </p>
+                <p>
+                  <strong>Tórax:</strong> Passe a fita métrica logo abaixo da
+                  região dos seios, cortornando pelas costas.
+                </p>
+                <p>
+                  <strong>Cintura:</strong> Contorne sua cintura com a fita
+                  métrica, na parte mais fina da silhueta, mais ou menos dois
+                  dedos acima do umbigo.
+                </p>
+                <p>
+                  <strong>Baixo Quadril:</strong> Passe a fita métrica onde
+                  geralmente se posiciona a linha da calcinha ou por cima do
+                  osso mais alto na região da bacia.
+                </p>
+                <p>
+                  <strong>Quadril:</strong> Contorne o quadril na parte mais
+                  larga e a mais avantajada dos glutéos.
+                </p>
+                <p>
+                  <strong>Coxas:</strong> Junte as pernas, sem pressionar uma
+                  contra a outra, passando a fita métrica na região mediana
+                  entre quadril e joelhos.
+                </p>
+              </div>
+            </Col>
+          </Row>
+          <Row type="flex" justify="center" align="center">
+            <Col>
+              <h2
+                className="logo-img"
+                style={{
+                  color: "rgb(45,45,45)",
+                  fontSize: "68px",
+                  marginTop: "20%"
+                }}
+              >
+                UnBoldo
+              </h2>
+            </Col>
+          </Row>
+        </Modal>
       </div>
     );
   }

@@ -81,9 +81,23 @@
   }
 }
 
+@media screen and (min-width: 1440px) {
+  .img-container {
+    overflow: hidden;
+    height: 710px;
+  }
+}
+
 @media screen and (min-width: 1441px) {
   .img-container {
     overflow: hidden;
-    height: 1260px;
+    height: 940px;
+  }
+}
+
+@media screen and (min-width: 1921px) {
+  .img-container {
+    overflow: hidden;
+    height: 1270px;
   }
 }

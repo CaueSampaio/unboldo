@@ -13,7 +13,7 @@ export default class Layout extends Component {
       <>
         <div className="container">
           <header className="header">
-            <Row type="flex" justify="center" align="center">
+            <Row type="flex" justify="center" align="middle">
               <Col className="header-col" xs={24} md={24} lg={6}>
                 <h2 className="logo-img">UnBoldo</h2>
               </Col>
