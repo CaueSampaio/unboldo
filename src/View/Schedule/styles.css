@@ -1,7 +1,19 @@
-.agendamento-container {
-  position: relative;
-  padding: 0px 60px;
-  margin: 0px auto;
+@media screen and (max-width: 767px) {
+  .agendamento-container {
+    position: relative;
+    padding: 0px;
+    margin: 0px auto;
+    margin-bottom: 150px;
+    margin-top: 150px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .agendamento-container {
+    position: relative;
+    padding: 0px;
+    margin: 0px auto;
+  }
 }
 
 .ant-select-selection {
@@ -236,15 +248,15 @@
 }
 
 .ant-form-item-label > label {
-  color: rgb(255, 255, 255);
+  color: rgb(45, 45, 45);
   font-weight: 500;
-  font-family: "Lato", sans-serif;
+  font-family: "Montserrat", "Roboto", "Oxygen", sans-serif;
 }
 
 .ant-form-item-required:before {
   display: inline-block;
   margin-right: 4px;
-  color: #ffffff;
+  color: rgb(45, 45, 45);
   font-size: 14px;
   font-family: SimSun, sans-serif;
   line-height: 1;
@@ -313,7 +325,7 @@
   width: 100%;
   height: 32px;
   padding: 4px 11px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(45, 45, 45, 1);
   font-size: 14px;
   line-height: 1.5;
   background-color: #fff0;
@@ -326,17 +338,17 @@
 
 .ant-input:focus,
 .ant-input:hover {
-  border-color: #ffffff;
+  border-color: rgb(45, 45, 45);
   border-right-width: 1px !important;
 }
 
 .open-instructions {
   cursor: pointer;
-  color: rgb(245, 229, 9);
+  color: rgb(9, 136, 245);
 }
 
 .has-error .ant-input:not([disabled]):hover {
-  border-color: #ffffff;
+  border-color: #ff4d4f;
 }
 
 .has-error .ant-input,
@@ -348,11 +360,11 @@
 .has-error .ant-form-explain,
 .has-error .ant-form-split {
   margin-top: 4px;
-  color: rgb(245, 229, 9);
+  color: #f5222d;
 }
 
 .has-error .ant-input:focus {
-  border-color: rgb(245, 229, 9);
+  color: #f5222d;
   border-right-width: 0px !important;
   outline: 0;
   -webkit-box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2);
@@ -382,7 +394,7 @@
 }
 
 .has-error .form-control {
-  border-color: #d4c60f;
+  border-color: #f5222d;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
@@ -455,23 +467,23 @@
 }
 
 .ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover {
-  border-color: #ffffff;
+  border-color: #2d2d2d;
   background-color: rgba(255, 255, 255, 0.2);
 }
 
 .ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
-  color: #ffffff;
+  color: #2d2d2d;
   font-size: 48px;
 }
 
 .ant-upload.ant-upload-drag p.ant-upload-text {
   margin: 0 0 4px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(45, 45, 45, 0.85);
   font-size: 16px;
 }
 
 .ant-upload.ant-upload-drag p.ant-upload-hint {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(45, 45, 45, 0.75);
   font-size: 14px;
 }
 
@@ -501,7 +513,7 @@
 }
 
 a {
-  color: #ffffff;
+  color: rgb(45, 45, 45);
   text-decoration: none;
   background-color: rgba(0, 0, 0, 0);
   outline: none;
@@ -512,7 +524,7 @@ a {
 }
 
 a:hover {
-  color: rgb(245, 229, 9);
+  color: rgb(9, 136, 245);
 }
 
 .ant-upload-list-picture .ant-upload-list-item-name {
@@ -529,7 +541,7 @@ a:hover {
   text-overflow: ellipsis;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-  color: #fff;
+  color: rgb(45, 45, 45);
 }
 
 .submit-button {
@@ -547,4 +559,14 @@ a:hover {
 label {
   color: #333333;
   font-family: "Lato", sans-serif;
+}
+
+.questionario-container {
+  display: flex;
+  background-color: #f3f3f3;
+  height: fit-content;
+  padding-top: 10px;
+  width: 100%;
+  padding: 0 5%;
+  color: rgb(45, 45, 45);
 }

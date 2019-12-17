@@ -56,7 +56,7 @@ export default class About extends Component {
             </div>
           </Col>
         </Row>
-        <p style={{ marginTop: "10px" }}>
+        <p style={{ marginTop: "20px" }}>
           &nbsp;Taynara passou então um ano em Portugal, pesquisando e
           explorando a moda europeia, aperfeiçoando sua ideia cada dia mais e
           pensando em cada detalhe e diferencial.&nbsp;No entanto, sabia que a
@@ -74,6 +74,34 @@ export default class About extends Component {
         <p>
           Foram entender profundamente o mercado e como ele funcionava - naquele
           momento, um mundo completamente novo para as duas.
+        </p>
+        <img
+          alt="Boldo Italia"
+          src="../../../assets/images/manequim.png"
+          style={{
+            width: "230px",
+            marginTop: "10px",
+            marginBottom: "20px",
+            marginLeft: "auto",
+            marginRight: "auto"
+          }}
+        />
+        <p>
+          &nbsp;O único contato anterior que Taynara havia com o beachwear era
+          pensar em qual modelo iria usar em suas viagens no verão, afinal, é
+          uma estudante de comunicação apaixonada por praia. Mesmo surgindo
+          dúvidas e inseguranças ao longo do caminho, não deixaram de acreditar
+          no potencial da Unboldo e fizeram acontecer!
+          <br />
+          &nbsp;E foi assim que nasceu uma marca. Uma marca que trata cada
+          cliente de forma individual, pois acredita na essência e distinção de
+          cada ser.
+        </p>
+        <p>
+          Resgatando o conceito dos ateliês e boutiques dos anos 1900 até 1920,
+          transmutando-o ao mercado de beachwear e adaptando-o ao mundo online,
+          permitindo uma experiência ao cliente sem barreiras de tempo e
+          distância.
         </p>
       </div>
     );

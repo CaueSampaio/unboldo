@@ -11,7 +11,8 @@ import {
   Row,
   Col,
   message,
-  Upload
+  Upload,
+  Modal
 } from "antd";
 import moment from "moment";
 import "./styles.css";
@@ -120,7 +121,7 @@ class Schedule extends Component {
     console.log(this.state);
     return (
       <div className="agendamento-container">
-        <Row gutter={{ xs: 0, md: 2, lg: 2, xl: 16 }}>
+        <Row style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}>
           <Col xs={24} md={24}>
             <div className="field-label">Selecione a data</div>
             {isLoading && (
@@ -218,73 +219,146 @@ class Schedule extends Component {
           </Col>
         </Row>
         <Row style={{ marginTop: "40px" }}>
-          <Col xs={24}>
-            <div className="field-label">Responda o questionário</div>
-            <p>
-              Este questionário foi desenvolvido com o objetivo de auxiliar o
-              cliente a transmitir para a marca o que deseja, por isso responda
-              com atenção e cautela. Vale ressaltar que NÃO copiamos de forma
-              alguma modelos de outras marcas, mas sim desenvolvemos um design
-              único através de referências enviadas pelo cliente.{" "}
-              <span
-                className="open-instructions"
-                onClick={() => {
-                  console.log("abriu");
+          <div className="questionario-container">
+            <Col xs={24}>
+              <div
+                className="field-label"
+                style={{
+                  color: "rgb(45, 45, 45)",
+                  borderBottomColor: "rgb(45, 45, 45)"
                 }}
               >
-                Clique aqui para ver instruções de medição.
-              </span>
-            </p>
-            <Form onSubmit={this.handleSubmit}>
-              <Row gutter={16}>
-                <Col xs={24}>
-                  <Form.Item label="Medida do busto em cm(centímetros)">
-                    {getFieldDecorator("busto", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Por favor, preencha esse campo!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="Medida do Tórax em cm (centímetros)">
-                    {getFieldDecorator("torax", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Por favor, preencha esse campo!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="Medida da Cintura em cm (centímetros)">
-                    {getFieldDecorator("cintura", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Por favor, preencha esse campo!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    label="Qual tamanho usa atualmente para sutiã? Citar a numeração e marca, se
+                Responda o questionário
+              </div>
+              <p>
+                Este questionário foi desenvolvido com o objetivo de auxiliar o
+                cliente a transmitir para a marca o que deseja, por isso
+                responda com atenção e cautela. Vale ressaltar que NÃO copiamos
+                de forma alguma modelos de outras marcas, mas sim desenvolvemos
+                um design único através de referências enviadas pelo cliente.{" "}
+                <span
+                  className="open-instructions"
+                  onClick={() => {
+                    console.log("abriu");
+                  }}
+                >
+                  Clique aqui para ver instruções de medição.
+                </span>
+              </p>
+              <Form onSubmit={this.handleSubmit}>
+                <Row gutter={16}>
+                  <Col xs={24}>
+                    <Form.Item label="Medida do busto em cm(centímetros)">
+                      {getFieldDecorator("busto", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Medida do Tórax em cm (centímetros)">
+                      {getFieldDecorator("torax", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Medida da Cintura em cm (centímetros)">
+                      {getFieldDecorator("cintura", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24}>
+                    <Form.Item
+                      label="Qual tamanho usa atualmente para sutiã? Citar a numeração e marca, se
       possível. Exemplo:42B Marca UnBoldo"
+                    >
+                      {getFieldDecorator("sutia", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Possui silicone?">
+                      {getFieldDecorator("silicone", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item
+                      label="O que mais te incomoda ao comprar a parte de cima de um biquíni (top)?
+      Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e
+      estampas"
+                    >
+                      {getFieldDecorator("incomoda", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24}>
+                    <Form.Item label="Medida do quadril em cm (centímetros)">
+                      {getFieldDecorator("quadril", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Baixo quadril em cm (centímetros)">
+                      {getFieldDecorator("baixoQuadril", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Medidas das coxas em cm (centímetros)">
+                      {getFieldDecorator("email", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Form>
+              <Row gutter={[0, 16]}>
+                <Col xs={24}>
+                  <Form.Item
+                    label="Qual tamanho usa atualmente para a parte de baixo (bottom/calcinha) do
+      biquíni"
                   >
-                    {getFieldDecorator("sutia", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Por favor, preencha esse campo!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="Possui silicone?">
-                    {getFieldDecorator("silicone", {
+                    {getFieldDecorator("calcinhaAtual", {
                       rules: [
                         {
                           required: true,
@@ -294,7 +368,7 @@ class Schedule extends Component {
                     })(<Input />)}
                   </Form.Item>
                   <Form.Item
-                    label="O que mais te incomoda ao comprar a parte de cima de um biquíni (top)?
+                    label="O que mais te incomoda ao comprar a parte de baixo de um biquíni ?
       Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e
       estampas"
                   >
@@ -307,10 +381,11 @@ class Schedule extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item label="Medida do quadril em cm (centímetros)">
-                    {getFieldDecorator("quadril", {
+                  <Form.Item
+                    label="Nos conte em detalhes o que você espera ter no biquíni, como cor, modelo,
+      referências, estampas ( caso for o modelo desejado) etc"
+                  >
+                    {getFieldDecorator("detalhes", {
                       rules: [
                         {
                           required: true,
@@ -319,92 +394,28 @@ class Schedule extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                  <Form.Item label="Baixo quadril em cm (centímetros)">
-                    {getFieldDecorator("baixoQuadril", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Por favor, preencha esse campo!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="Medidas das coxas em cm (centímetros)">
-                    {getFieldDecorator("email", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Por favor, preencha esse campo!"
-                        }
-                      ]
-                    })(<Input />)}
+                  <Form.Item
+                    label="Tem imagens de referência? Anexe aqui, isso vai nos ajudar a entender melhor o
+que deseja!"
+                  >
+                    {getFieldDecorator("attachments")(
+                      <Upload.Dragger {...props}>
+                        <p className="ant-upload-drag-icon">
+                          <Icon type="inbox" />
+                        </p>
+                        <p className="ant-upload-text">
+                          Clique ou arraste arquivos para anexar.
+                        </p>
+                        <p className="ant-upload-hint">
+                          Envie um ou mais arquivos.
+                        </p>
+                      </Upload.Dragger>
+                    )}
                   </Form.Item>
                 </Col>
               </Row>
-            </Form>
-            <Row gutter={[0, 16]}>
-              <Col xs={24}>
-                <Form.Item
-                  label="Qual tamanho usa atualmente para a parte de baixo (bottom/calcinha) do
-      biquíni"
-                >
-                  {getFieldDecorator("calcinhaAtual", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Por favor, preencha esse campo!"
-                      }
-                    ]
-                  })(<Input />)}
-                </Form.Item>
-                <Form.Item
-                  label="O que mais te incomoda ao comprar a parte de baixo de um biquíni ?
-      Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e
-      estampas"
-                >
-                  {getFieldDecorator("incomoda", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Por favor, preencha esse campo!"
-                      }
-                    ]
-                  })(<Input />)}
-                </Form.Item>
-                <Form.Item
-                  label="Nos conte em detalhes o que você espera ter no biquíni, como cor, modelo,
-      referências, estampas ( caso for o modelo desejado) etc"
-                >
-                  {getFieldDecorator("detalhes", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Por favor, preencha esse campo!"
-                      }
-                    ]
-                  })(<Input />)}
-                </Form.Item>
-                <Form.Item
-                  label="Tem imagens de referência? Anexe aqui, isso vai nos ajudar a entender melhor o
-que deseja!"
-                >
-                  {getFieldDecorator("attachments")(
-                    <Upload.Dragger {...props}>
-                      <p className="ant-upload-drag-icon">
-                        <Icon type="inbox" />
-                      </p>
-                      <p className="ant-upload-text">
-                        Clique ou arraste arquivos para anexar.
-                      </p>
-                      <p className="ant-upload-hint">
-                        Envie um ou mais arquivos.
-                      </p>
-                    </Upload.Dragger>
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-          </Col>
+            </Col>
+          </div>
         </Row>
         <div className="field-label" style={{ marginTop: "30px" }}>
           Informações de pagamento
