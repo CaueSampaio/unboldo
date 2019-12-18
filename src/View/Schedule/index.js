@@ -12,7 +12,8 @@ import {
   Col,
   message,
   Upload,
-  Modal
+  Modal,
+  Checkbox
 } from "antd";
 import moment from "moment";
 import "./styles.css";
@@ -29,6 +30,7 @@ class Schedule extends Component {
 
     this.state = {
       measureModalVisible: false,
+      policyModalVisible: false,
       dates: [],
       selectedDate: "",
       cvc: "",
@@ -97,18 +99,35 @@ class Schedule extends Component {
     this.setState({ [field]: value }, () => console.log(this.state));
   };
 
-  handleToggleModal = () => {
+  handleToggleMeasureModal = () => {
     const { measureModalVisible } = this.state;
     this.setState({
       measureModalVisible: !measureModalVisible
     });
   };
 
+  handleTogglePolicyModal = () => {
+    const { policyModalVisible } = this.state;
+    this.setState({
+      policyModalVisible: !policyModalVisible
+    });
+  };
+
+  handleSubmit = () => {
+    console.log(this.props.form.getFieldsValue().attachments.file.thumbUrl);
+  };
+
   render() {
     const {
       form: { getFieldDecorator }
     } = this.props;
-    const { dates, hour, isLoading, measureModalVisible } = this.state;
+    const {
+      dates,
+      hour,
+      isLoading,
+      measureModalVisible,
+      policyModalVisible
+    } = this.state;
     const props = {
       name: "file",
       multiple: true,
@@ -246,7 +265,7 @@ class Schedule extends Component {
                 um design único através de referências enviadas pelo cliente.{" "}
                 <span
                   className="open-instructions"
-                  onClick={() => this.handleToggleModal()}
+                  onClick={() => this.handleToggleMeasureModal()}
                 >
                   Clique aqui para ver instruções de medição.
                 </span>
@@ -488,7 +507,7 @@ que deseja!"
                         type="text"
                         name="name"
                         className="form-control"
-                        placeholder="Nome Sobrenome"
+                        placeholder="Nome no cartão"
                         autoComplete="off"
                         onChange={this.handleInputChange}
                         onFocus={this.handleInputFocus}
@@ -547,17 +566,107 @@ que deseja!"
             </Form>
           </Col>
         </Row>
-        <Row type="flex" justify="center" align="middle">
-          <Button className="submit-button" type="submit">
-            Agendar
-          </Button>
+        <Row style={{ marginTop: "40px" }}>
+          <div className="questionario-container">
+            <Col xs={24}>
+              <div
+                className="field-label"
+                style={{
+                  color: "rgb(45, 45, 45)",
+                  borderBottomColor: "rgb(45, 45, 45)"
+                }}
+              >
+                Dados do cliente
+              </div>
+              <Form onSubmit={this.handleSubmit}>
+                <Row gutter={16}>
+                  <Col xs={24}>
+                    <Form.Item label="Nome completo">
+                      {getFieldDecorator("fullName", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Email">
+                      {getFieldDecorator("email", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Telefone">
+                      {getFieldDecorator("phone", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24}>
+                    <Form.Item label="Data de nascimento">
+                      {getFieldDecorator("birthDate", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Endereço">
+                      {getFieldDecorator("address", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                  style={{ marginBottom: "10px" }}
+                >
+                  <Checkbox onChange={this.handleChangePolicyCheckbox}>
+                    Ao agendar um horário você afirma estar de acordo com as
+                    nossas políticas.
+                    <span
+                      className="open-instructions"
+                      onClick={() => this.handleTogglePolicyModal()}
+                    >
+                       Clique aqui para ver nossas políticas
+                    </span>
+                  </Checkbox>
+                </Row>
+                <Row type="flex" justify="center" align="middle">
+                  <Button className="submit-button" onClick={this.handleSubmit}>
+                    Agendar
+                  </Button>
+                </Row>
+              </Form>
+            </Col>
+          </div>
         </Row>
         <Modal
           title="COMO TIRAR MEDIDAS?"
           visible={measureModalVisible}
           centered
           footer={null}
-          onCancel={this.handleToggleModal}
+          onCancel={this.handleToggleMeasureModal}
         >
           <Row gutter={16}>
             <Col xs={24} lg={12}>
@@ -615,6 +724,14 @@ que deseja!"
               </h2>
             </Col>
           </Row>
+        </Modal>
+        <Modal
+          title="COMO FUNCIONA E POLÍTICAS DA EMPRESA"
+          visible={policyModalVisible}
+          footer={null}
+          onCancel={this.handleTogglePolicyModal}
+        >
+          Teste
         </Modal>
       </div>
     );
