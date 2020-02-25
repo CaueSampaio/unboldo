@@ -78,12 +78,21 @@ class Schedule extends Component {
     const result = await axios.get(
       `http://unoboldo.kinghost.net/api/calendars`
     );
+
+    const now = moment(new Date()).format("DD/MM/YYYY");
+    var selectedDate = result.data.find((element) => element.date === now);
+
     this.setState(
       {
         dates: result.data
       },
       () => {
-        this.setState({ isLoading: false });
+        this.setState(
+          { 
+            isLoading: false,
+            selectedDate: selectedDate.date,
+            hour: selectedDate.hours,
+          });
       }
     );
   }
@@ -173,12 +182,18 @@ class Schedule extends Component {
               fullscreen={false}
               onChange={date => {
                 const formatDate = moment(date).format("DD/MM/YYYY");
+
+                let hoursSelectedDate;
+                dates.forEach(element => {
+                  if(element.date === formatDate){
+                    hoursSelectedDate = element.hours;
+                  }
+                });
+
                 this.setState(
                   {
-                    selectedDate: formatDate
-                  },
-                  () => {
-                    console.log(this.state);
+                    selectedDate: formatDate,
+                    hour: hoursSelectedDate,
                   }
                 );
               }}
@@ -218,27 +233,16 @@ class Schedule extends Component {
               <ol>
                 {hour.map(item => (
                   <li>
-                    <Button
+                    {item.available && <Button
                       onClick={item => {
                         this.setState({
-                          initialHour: item.start
+                          initialHour: item.initialHour
                         });
-                        console.log("teste", item);
                       }}
-                      disabled={item => {
-                        const { dates, selectedDate } = this.state;
-                        const selectedDateHours = dates.find(
-                          date => date.date === selectedDate
-                        );
-                        const availableHour = selectedDateHours.hours.some(
-                          hour =>
-                            hour.initialHour === item.start && hour.available
-                        );
-                        return availableHour;
-                      }}
+                      
                     >
-                      {item.start} às {item.end}
-                    </Button>
+                      {item.initialHour} às {item.finalHour}
+                    </Button>}
                   </li>
                 ))}
               </ol>
