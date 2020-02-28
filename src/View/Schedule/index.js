@@ -18,10 +18,14 @@ import {
 import moment from "moment";
 import "./styles.css";
 import "react-credit-cards/es/styles-compiled.css";
+import { Select } from 'antd';
+const { Option } = Select;
 
 const antIcon = (
   <Icon type="loading" style={{ fontSize: 24, color: "#fff" }} spin />
 );
+
+
 // import { Container } from './styles';
 
 class Schedule extends Component {
@@ -38,38 +42,7 @@ class Schedule extends Component {
       focus: "",
       name: "",
       number: "",
-      hour: [
-        {
-          id: 1,
-          start: "9:30",
-          end: "10:30"
-        },
-        {
-          id: 2,
-          start: "11:00",
-          end: "12:00"
-        },
-        {
-          id: 3,
-          start: "12:30",
-          end: "13:30"
-        },
-        {
-          id: 4,
-          start: "14:00",
-          end: "15:00"
-        },
-        {
-          id: 5,
-          start: "15:30",
-          end: "16:30"
-        },
-        {
-          id: 6,
-          start: "17:00",
-          end: "18:00"
-        }
-      ],
+      hour: [],
       isLoading: true
     };
   }
@@ -78,12 +51,21 @@ class Schedule extends Component {
     const result = await axios.get(
       `http://unoboldo.kinghost.net/api/calendars`
     );
+
+    const now = moment(new Date()).format("DD/MM/YYYY");
+    var selectedDate = result.data.find((element) => element.date === now);
+
     this.setState(
       {
         dates: result.data
       },
       () => {
-        this.setState({ isLoading: false });
+        this.setState(
+          { 
+            isLoading: false,
+            selectedDate: selectedDate.date,
+            hour: selectedDate.hours,
+          });
       }
     );
   }
@@ -173,12 +155,18 @@ class Schedule extends Component {
               fullscreen={false}
               onChange={date => {
                 const formatDate = moment(date).format("DD/MM/YYYY");
+
+                let hoursSelectedDate;
+                dates.forEach(element => {
+                  if(element.date === formatDate){
+                    hoursSelectedDate = element.hours;
+                  }
+                });
+
                 this.setState(
                   {
-                    selectedDate: formatDate
-                  },
-                  () => {
-                    console.log(this.state);
+                    selectedDate: formatDate,
+                    hour: hoursSelectedDate,
                   }
                 );
               }}
@@ -218,27 +206,16 @@ class Schedule extends Component {
               <ol>
                 {hour.map(item => (
                   <li>
-                    <Button
+                    {item.available && <Button
                       onClick={item => {
                         this.setState({
-                          initialHour: item.start
+                          initialHour: item.initialHour
                         });
-                        console.log("teste", item);
                       }}
-                      disabled={item => {
-                        const { dates, selectedDate } = this.state;
-                        const selectedDateHours = dates.find(
-                          date => date.date === selectedDate
-                        );
-                        const availableHour = selectedDateHours.hours.some(
-                          hour =>
-                            hour.initialHour === item.start && hour.available
-                        );
-                        return availableHour;
-                      }}
+                      
                     >
-                      {item.start} às {item.end}
-                    </Button>
+                      {item.initialHour} às {item.finalHour}
+                    </Button>}
                   </li>
                 ))}
               </ol>
@@ -560,6 +537,26 @@ que deseja!"
                         onFocus={this.handleInputFocus}
                       />
                     )}
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={12}>
+                <Form.Item label="Forma de pagamento">
+                    {getFieldDecorator("method", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Por favor, preencha esse campo!"
+                        }
+                      ]
+                    })(<Select 
+                          showSearch
+                          style={{ borderBottom: "1px solid #fff"}}
+                          name="method"
+                          placeholder="Selecione a forma de pagamento"
+                          >
+                        <Option value={1}>Crédito</Option>
+                        <Option value={2}>Débito</Option>
+                      </Select>)}
                   </Form.Item>
                 </Col>
               </Row>

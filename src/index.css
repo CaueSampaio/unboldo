@@ -17,3 +17,7 @@ code {
   src: url("./assets/fonts/KatherineFree.otf");
   src: url("./assets/fonts/KatherineFree.otf") format("opentype");
 }
+
+.ant-select-search__field__placeholder, .ant-select-selection__placeholder {
+  overflow: visible;
+}
