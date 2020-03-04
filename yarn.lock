@@ -1902,6 +1902,11 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
+antd-mask-input@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/antd-mask-input/-/antd-mask-input-0.1.13.tgz#471e7012aeddfd4a71181bc9809766724eaad4cd"
+  integrity sha512-Ox/fKrZsuGzXUiQDzgYRC7LjQ8eSo2Erh0Te1Y4vwnngnLQ1/EOhkC8fGOfSfJRCffxjMRIk5jazlhopqNGnuQ==
+
 antd@^3.25.0:
   version "3.26.0"
   resolved "https://registry.yarnpkg.com/antd/-/antd-3.26.0.tgz#0a6a43fdd8577e61708932b7bc34ba0234d0f138"

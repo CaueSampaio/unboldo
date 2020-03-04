@@ -17,6 +17,7 @@ import {
 } from "antd";
 import moment from "moment";
 import "./styles.css";
+import MaskedInput from 'antd-mask-input';
 import "react-credit-cards/es/styles-compiled.css";
 import { Select } from 'antd';
 const { Option } = Select;
@@ -225,6 +226,22 @@ class Schedule extends Component {
     })
   };
 
+  inputDateValidator = (rule, value, callback) => {
+    console.log("inputDateValidator");
+    try{
+      const date = moment(value, "DD/MM/YYYY", true);
+      if(date.isValid())
+      {
+        console.log("moment.now()",moment.now());
+        if(date < moment.now())
+          callback();
+      }
+      callback("Data Inválida.");
+    }
+    catch(e){
+      callback("Data Inválida.");
+    }
+  };
 
   render() {
     const {
@@ -791,9 +808,12 @@ que deseja!"
                             min: 10,
                             max:11,
                             message: "Data inválida",
+                          },
+                          {
+                            validator: this.inputDateValidator,
                           }
                         ]
-                      })(<Input />)}
+                      })(<MaskedInput mask="11/11/1111" />)}
                     </Form.Item>
                     <Form.Item label="Rua">
                       {getFieldDecorator("addressStreet", {
