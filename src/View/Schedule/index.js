@@ -43,7 +43,12 @@ class Schedule extends Component {
       name: "",
       number: "",
       hour: [],
-      isLoading: true
+      isLoading: true,
+      photos: [],
+      finalHour: null,
+      initialHour: null,
+      submitLoading: null,
+      policyTermsAceppted: false,
     };
   }
 
@@ -52,7 +57,9 @@ class Schedule extends Component {
       `http://unoboldo.kinghost.net/api/calendars`
     );
 
-    const now = moment(new Date()).format("DD/MM/YYYY");
+    let now = moment(new Date()).format("DD/MM/YYYY");
+    // REMOVEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRR chumbado
+    now = "28/02/2020";
     var selectedDate = result.data.find((element) => element.date === now);
 
     this.setState(
@@ -72,6 +79,11 @@ class Schedule extends Component {
 
   handleInputFocus = e => {
     this.setState({ focus: e.target.name });
+  };
+
+  handleChangePolicyCheckbox = e => {
+    const { policyTermsAceppted } = this.state;    
+    this.setState({policyTermsAceppted: !policyTermsAceppted});
   };
 
   handleInputChange = e => {
@@ -95,9 +107,124 @@ class Schedule extends Component {
     });
   };
 
-  handleSubmit = () => {
-    console.log(this.props.form.getFieldsValue().attachments.file.thumbUrl);
+  handleSubmit = (e) => {
+    const { policyTermsAceppted, selectedDate, initialHour, finalHour, number, cvc, expiry } = this.state;
+    this.setState({ submitLoading: true });
+
+    // validate fields
+    let canContinue = true;
+    this.props.form.validateFields((err, value) => {
+      if(err !== null) {
+        canContinue = false;
+      }
+    });
+    if(initialHour === null){
+      canContinue = false;
+      alert('Informe dia e hora do seu agendamento!');
+    }
+    if(policyTermsAceppted === false){
+      canContinue = false;
+      alert("Você precisa estar de acordo com nossas políticas para continuar com o agendamento.");
+    }
+    if(!canContinue){
+      this.setState({submitLoading: false});
+      return;
+    }
+    
+
+    // Pegar base64 dos arquivos enviados, photos.reference
+    const { photos } = this.state;
+    const fields = this.props.form.getFieldsValue();
+
+    const submitLoadingToFalse = () => {
+      this.setState({submitLoading: false});
+    };
+    window.PagSeguroDirectPayment.onSenderHashReady(function(response){
+      if(response.status == 'error') {
+          console.log(response.message);
+          return false;
+      }
+      
+      // Fazer a request 
+      const instance = axios.create({
+        baseURL: 'http://unoboldo.kinghost.net/api/',
+        headers: {'X-Custom-Header': 'foobar'},
+        validateStatus: function (status) {
+          return status < 500; // default
+        }
+      });
+      const questionnaires = [];
+      questionnaires.push({ question: "Medida do busto em cm(centímetros)", answer: fields.q1 })
+      questionnaires.push({ question: "Medida do Tórax em cm (centímetros)", answer: fields.q2 })
+      questionnaires.push({ question: "Medida da Cintura em cm (centímetros)", answer: fields.q3 })
+      questionnaires.push({ question: "Qual tamanho usa atualmente para sutiã? Citar a numeração e marca, se possível. Exemplo:42B Marca UnBoldo", answer: fields.q4 })
+      questionnaires.push({ question: "Possui silicone?", answer: fields.q5 })
+      questionnaires.push({ question: "O que mais te incomoda ao comprar a parte de cima de um biquíni (top)? Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e estampas", answer: fields.q6 })
+      questionnaires.push({ question: "Medida do quadril em cm (centímetros)", answer: fields.q7 })
+      questionnaires.push({ question: "Baixo quadril em cm (centímetros)", answer: fields.q8 })
+      questionnaires.push({ question: "Medidas das coxas em cm (centímetros)", answer: fields.q9 })
+      questionnaires.push({ question: "Qual tamanho usa atualmente para a parte de baixo (bottom/calcinha) do biquíni", answer: fields.q10 })
+      questionnaires.push({ question: "O que mais te incomoda ao comprar a parte de baixo de um biquíni ? Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e estampas", answer: fields.q11 })
+      questionnaires.push({ question: "Nos conte em detalhes o que você espera ter no biquíni, como cor, modelo, referências, estampas ( caso for o modelo desejado) etc", answer: fields.q12 })
+
+
+      
+      instance.post('schedules',
+      {
+        // ...fields,
+        photos,
+        date: selectedDate,
+        initialHour,
+        finalHour,
+        questionnaires,
+        client: {
+          name: fields.name,
+          cpf: fields.cpf,
+          email: fields.email,
+          birthDate: fields.birthDate,
+          phoneNumber:fields.phoneNumber,
+          paymentData: {
+            method: fields.method,
+            senderHash: response.senderHash,
+            cardNumber: number.replace(" ","").replace(" ","").replace(" ",""),
+            CardCVV: cvc,
+            CardExpirationMonth: expiry.substr(0,2),
+            CardExpirationYear: "20" + expiry.substr(3,2),
+            AddressStreet: fields.addressStreet,
+            addressNumber: fields.addressNumber,
+            addressDistrict: fields.addressDistrict,
+            addressPostalCode: fields.addressPostalCode,
+            addressCity: fields.addressCity,
+            addressState: fields.addressState,
+            // cardBank: "1",
+          }
+        }
+      })
+      .then(function (response) {
+        console.log("response",response);
+        alert("Seu agendamento foi realizado com sucesso!");
+        console.log("selectedDate",selectedDate);
+        submitLoadingToFalse();
+      })
+      .catch(function (error) {
+        alert("Erro no agendamento");
+        console.log("Erro no agendamento",error);
+        submitLoadingToFalse();
+      });
+      
+
+    });
+    
   };
+
+
+  addPhoto = (base64) => {
+    const { photos } = this.state;
+    this.setState({
+      photos: photos.concat({ reference: base64})
+    })
+  };
+
 
   render() {
     const {
@@ -108,11 +235,27 @@ class Schedule extends Component {
       hour,
       isLoading,
       measureModalVisible,
-      policyModalVisible
+      policyModalVisible,
+      submitLoading,
     } = this.state;
     const props = {
       name: "file",
       multiple: true,
+      transformFile: (file) => {
+        // console.log("file", file);
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          let result = undefined;
+          reader.onload = () => {
+            result = reader.result;
+            this.addPhoto(result);
+            // console.log("result",result);
+            // console.log(this.addPhoto);
+          };
+          
+        });
+      },
       action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
       listType: "picture",
       onChange(info) {
@@ -127,6 +270,8 @@ class Schedule extends Component {
         }
       }
     };
+
+    console.log("render() submitLoading", submitLoading);
     console.log(this.state);
     return (
       <div className="agendamento-container">
@@ -154,6 +299,7 @@ class Schedule extends Component {
             <Calendar
               fullscreen={false}
               onChange={date => {
+                console.log("O Calendário está mudando", date);
                 const formatDate = moment(date).format("DD/MM/YYYY");
 
                 let hoursSelectedDate;
@@ -207,13 +353,13 @@ class Schedule extends Component {
                 {hour.map(item => (
                   <li>
                     {item.available && <Button
-                      onClick={item => {
+                      onClick={(e) => {
                         this.setState({
-                          initialHour: item.initialHour
+                          initialHour: item.initialHour,
+                          finalHour: item.finalHour,
                         });
-                      }}
-                      
-                    >
+                        console.log("item",item);
+                      }}>
                       {item.initialHour} às {item.finalHour}
                     </Button>}
                   </li>
@@ -251,7 +397,7 @@ class Schedule extends Component {
                 <Row gutter={16}>
                   <Col xs={24}>
                     <Form.Item label="Medida do busto em cm(centímetros)">
-                      {getFieldDecorator("busto", {
+                      {getFieldDecorator("q1", {
                         rules: [
                           {
                             required: true,
@@ -261,7 +407,7 @@ class Schedule extends Component {
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item label="Medida do Tórax em cm (centímetros)">
-                      {getFieldDecorator("torax", {
+                      {getFieldDecorator("q2", {
                         rules: [
                           {
                             required: true,
@@ -271,7 +417,7 @@ class Schedule extends Component {
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item label="Medida da Cintura em cm (centímetros)">
-                      {getFieldDecorator("cintura", {
+                      {getFieldDecorator("q3", {
                         rules: [
                           {
                             required: true,
@@ -286,7 +432,7 @@ class Schedule extends Component {
                       label="Qual tamanho usa atualmente para sutiã? Citar a numeração e marca, se
       possível. Exemplo:42B Marca UnBoldo"
                     >
-                      {getFieldDecorator("sutia", {
+                      {getFieldDecorator("q4", {
                         rules: [
                           {
                             required: true,
@@ -296,7 +442,7 @@ class Schedule extends Component {
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item label="Possui silicone?">
-                      {getFieldDecorator("silicone", {
+                      {getFieldDecorator("q5", {
                         rules: [
                           {
                             required: true,
@@ -310,7 +456,7 @@ class Schedule extends Component {
       Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e
       estampas"
                     >
-                      {getFieldDecorator("incomoda", {
+                      {getFieldDecorator("q6", {
                         rules: [
                           {
                             required: true,
@@ -322,7 +468,7 @@ class Schedule extends Component {
                   </Col>
                   <Col xs={24}>
                     <Form.Item label="Medida do quadril em cm (centímetros)">
-                      {getFieldDecorator("quadril", {
+                      {getFieldDecorator("q7", {
                         rules: [
                           {
                             required: true,
@@ -332,7 +478,7 @@ class Schedule extends Component {
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item label="Baixo quadril em cm (centímetros)">
-                      {getFieldDecorator("baixoQuadril", {
+                      {getFieldDecorator("q8", {
                         rules: [
                           {
                             required: true,
@@ -342,7 +488,7 @@ class Schedule extends Component {
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item label="Medidas das coxas em cm (centímetros)">
-                      {getFieldDecorator("email", {
+                      {getFieldDecorator("q9", {
                         rules: [
                           {
                             required: true,
@@ -360,7 +506,7 @@ class Schedule extends Component {
                     label="Qual tamanho usa atualmente para a parte de baixo (bottom/calcinha) do
       biquíni"
                   >
-                    {getFieldDecorator("calcinhaAtual", {
+                    {getFieldDecorator("q10", {
                       rules: [
                         {
                           required: true,
@@ -374,7 +520,7 @@ class Schedule extends Component {
       Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e
       estampas"
                   >
-                    {getFieldDecorator("incomoda", {
+                    {getFieldDecorator("q11", {
                       rules: [
                         {
                           required: true,
@@ -387,7 +533,7 @@ class Schedule extends Component {
                     label="Nos conte em detalhes o que você espera ter no biquíni, como cor, modelo,
       referências, estampas ( caso for o modelo desejado) etc"
                   >
-                    {getFieldDecorator("detalhes", {
+                    {getFieldDecorator("q12", {
                       rules: [
                         {
                           required: true,
@@ -588,22 +734,46 @@ que deseja!"
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Email">
+                    <Form.Item label="CPF">
+                      {getFieldDecorator("cpf", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          },
+                          {
+                            min:11,
+                            max:11,
+                            message: "CPF deve conter 11 caracteres."
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="E-mail">
                       {getFieldDecorator("email", {
                         rules: [
                           {
                             required: true,
                             message: "Por favor, preencha esse campo!"
+                          },
+                          {
+                            type: 'email',
+                            message: 'E-mail inválido.'
                           }
                         ]
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item label="Telefone">
-                      {getFieldDecorator("phone", {
+                      {getFieldDecorator("phoneNumber", {
                         rules: [
                           {
                             required: true,
                             message: "Por favor, preencha esse campo!"
+                          },
+                          {
+                            min:10,
+                            max: 11,
+                            message: "Telefone deve conter no mínimo 10 e no máximo 11 caracteres."
                           }
                         ]
                       })(<Input />)}
@@ -616,12 +786,72 @@ que deseja!"
                           {
                             required: true,
                             message: "Por favor, preencha esse campo!"
+                          },
+                          {
+                            min: 10,
+                            max:11,
+                            message: "Data inválida",
                           }
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Endereço">
-                      {getFieldDecorator("address", {
+                    <Form.Item label="Rua">
+                      {getFieldDecorator("addressStreet", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Número">
+                      {getFieldDecorator("addressNumber", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Bairro">
+                      {getFieldDecorator("addressDistrict", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="CEP">
+                      {getFieldDecorator("addressPostalCode", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          },
+                          {
+                            min: 8,
+                            max: 8,
+                            message: "Cep inválido.",
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Cidade">
+                      {getFieldDecorator("addressCity", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Por favor, preencha esse campo!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Estado">
+                      {getFieldDecorator("addressState", {
                         rules: [
                           {
                             required: true,
@@ -650,7 +880,7 @@ que deseja!"
                   </Checkbox>
                 </Row>
                 <Row type="flex" justify="center" align="middle">
-                  <Button className="submit-button" onClick={this.handleSubmit}>
+                  <Button loading={submitLoading} className="submit-button" onClick={this.handleSubmit}>
                     Agendar
                   </Button>
                 </Row>
