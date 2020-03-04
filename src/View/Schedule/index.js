@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Cards from "react-credit-cards";
 import {
@@ -26,9 +25,6 @@ const antIcon = (
   <Icon type="loading" style={{ fontSize: 24, color: "#fff" }} spin />
 );
 
-
-// import { Container } from './styles';
-
 class Schedule extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +46,7 @@ class Schedule extends Component {
       initialHour: null,
       submitLoading: null,
       policyTermsAceppted: false,
+      method: null,
     };
   }
 
@@ -59,9 +56,9 @@ class Schedule extends Component {
     );
 
     let now = moment(new Date()).format("DD/MM/YYYY");
-    // REMOVEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRR chumbado
-    now = "28/02/2020";
     var selectedDate = result.data.find((element) => element.date === now);
+    
+      
 
     this.setState(
       {
@@ -71,8 +68,8 @@ class Schedule extends Component {
         this.setState(
           { 
             isLoading: false,
-            selectedDate: selectedDate.date,
-            hour: selectedDate.hours,
+            selectedDate: selectedDate.available ? selectedDate.date : null,
+            hour: selectedDate.available ? selectedDate.hours : null,
           });
       }
     );
@@ -109,7 +106,7 @@ class Schedule extends Component {
   };
 
   handleSubmit = (e) => {
-    const { policyTermsAceppted, selectedDate, initialHour, finalHour, number, cvc, expiry } = this.state;
+    const { method, policyTermsAceppted, selectedDate, initialHour, finalHour, number, cvc, expiry } = this.state;
     this.setState({ submitLoading: true });
 
     // validate fields
@@ -168,7 +165,30 @@ class Schedule extends Component {
       questionnaires.push({ question: "O que mais te incomoda ao comprar a parte de baixo de um biquíni ? Conte em detalhes, desde de modelagem, caimento ou até mesmo cores e estampas", answer: fields.q11 })
       questionnaires.push({ question: "Nos conte em detalhes o que você espera ter no biquíni, como cor, modelo, referências, estampas ( caso for o modelo desejado) etc", answer: fields.q12 })
 
-
+      let paymentData = {
+        method: method,
+        senderHash: response.senderHash,
+      };
+      if(method === 1){
+        paymentData = {
+          ...paymentData,
+          cardNumber: number.replace(" ","").replace(" ","").replace(" ",""),
+          CardCVV: cvc,
+          CardExpirationMonth: expiry.substr(0,2),
+          CardExpirationYear: "20" + expiry.substr(3,2),
+          AddressStreet: fields.addressStreet,
+          addressNumber: fields.addressNumber,
+          addressDistrict: fields.addressDistrict,
+          addressPostalCode: fields.addressPostalCode,
+          addressCity: fields.addressCity,
+          addressState: fields.addressState,
+        }
+      } else {
+        paymentData = {
+          ...paymentData,
+          cardBank: fields.cardBank,
+        }
+      } 
       
       instance.post('schedules',
       {
@@ -184,32 +204,23 @@ class Schedule extends Component {
           email: fields.email,
           birthDate: fields.birthDate,
           phoneNumber:fields.phoneNumber,
-          paymentData: {
-            method: fields.method,
-            senderHash: response.senderHash,
-            cardNumber: number.replace(" ","").replace(" ","").replace(" ",""),
-            CardCVV: cvc,
-            CardExpirationMonth: expiry.substr(0,2),
-            CardExpirationYear: "20" + expiry.substr(3,2),
-            AddressStreet: fields.addressStreet,
-            addressNumber: fields.addressNumber,
-            addressDistrict: fields.addressDistrict,
-            addressPostalCode: fields.addressPostalCode,
-            addressCity: fields.addressCity,
-            addressState: fields.addressState,
-            // cardBank: "1",
-          }
+          paymentData,
         }
       })
       .then(function (response) {
-        console.log("response",response);
-        alert("Seu agendamento foi realizado com sucesso!");
-        console.log("selectedDate",selectedDate);
+        console.log("response", response);
+        if(response.status === 200)
+          alert("Seu agendamento foi realizado com sucesso!");
+        else if(response.status === 422)
+          alert(response.data.error);
+        else 
+          alert("Ocorreu um erro, tente novamente mais tarde.");
+
         submitLoadingToFalse();
       })
       .catch(function (error) {
-        alert("Erro no agendamento");
         console.log("Erro no agendamento",error);
+        alert("Ocorreu um erro, tente novamente mais tarde.");
         submitLoadingToFalse();
       });
       
@@ -254,12 +265,12 @@ class Schedule extends Component {
       measureModalVisible,
       policyModalVisible,
       submitLoading,
+      method,
     } = this.state;
     const props = {
       name: "file",
       multiple: true,
-      transformFile: (file) => {
-        // console.log("file", file);
+      transformFile: (file) => {        
         return new Promise(resolve => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
@@ -267,8 +278,17 @@ class Schedule extends Component {
           reader.onload = () => {
             result = reader.result;
             this.addPhoto(result);
-            // console.log("result",result);
-            // console.log(this.addPhoto);
+            const canvas = document.createElement('canvas');
+            const img = document.createElement('img');
+            img.src = reader.result;
+            img.onload = () => {
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0);
+              ctx.fillStyle = 'red';
+              ctx.textBaseline = 'middle';
+              ctx.fillText('Ant Design', 20, 20);
+              canvas.toBlob(resolve);
+            };
           };
           
         });
@@ -287,9 +307,6 @@ class Schedule extends Component {
         }
       }
     };
-
-    console.log("render() submitLoading", submitLoading);
-    console.log(this.state);
     return (
       <div className="agendamento-container">
         <Row style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}>
@@ -367,7 +384,7 @@ class Schedule extends Component {
             )}
             <div className="horario">
               <ol>
-                {hour.map(item => (
+                {(hour === undefined || hour === null || hour.length == 0) ? (<p>Nenhum horário disponível para esse dia.</p>) : hour.map(item => (
                   <li>
                     {item.available && <Button
                       onClick={(e) => {
@@ -381,6 +398,7 @@ class Schedule extends Component {
                     </Button>}
                   </li>
                 ))}
+                {}
               </ol>
             </div>
           </Col>
@@ -586,7 +604,39 @@ que deseja!"
           Informações de pagamento
         </div>
         <Row type="flex" justify="space-around" align="middle">
-          <Col xs={24} md={12} lg={24}>
+          <Col xs={24} md={24}>
+          <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0px 0px"
+              }}>
+            <Form.Item label="Forma de pagamento" style={{width: '250px'}}>
+                {getFieldDecorator("method", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Por favor, preencha esse campo!"
+                    }
+                  ]
+                })(<Select 
+                      onChange={(e) => { this.setState({ method: e })}}
+                      showSearch
+                      style={{ borderBottom: "1px solid #fff"}}
+                      name="method"
+                      placeholder="Selecione a forma de pagamento"
+                      >
+                    <Option value={1}>Crédito</Option>
+                    <Option value={2}>Débito online</Option>
+                  </Select>)}
+              </Form.Item>
+              </div>
+            </Col>
+           {method && method === 1 && 
+            (<div
+              
+            ><Col xs={12} md={12} lg={12}>
             <div
               style={{
                 display: "flex",
@@ -605,8 +655,8 @@ que deseja!"
                 placeholder={{ name: "NOME SOBRENOME" }}
               />
             </div>
-          </Col>
-          <Col xs={24} md={12}>
+          </Col> 
+           <Col xs={24} md={12}>
             <Form style={{ marginTop: "0px" }}>
               <Row>
                 <Col xs={24}>
@@ -635,7 +685,7 @@ que deseja!"
                 </Col>
                 <Col xs={24}>
                   <Form.Item label="Nome">
-                    {getFieldDecorator("name", {
+                    {getFieldDecorator("cardName", {
                       rules: [
                         {
                           required: true,
@@ -645,7 +695,7 @@ que deseja!"
                     })(
                       <input
                         type="text"
-                        name="name"
+                        name="cardName"
                         className="form-control"
                         placeholder="Nome no cartão"
                         autoComplete="off"
@@ -702,29 +752,40 @@ que deseja!"
                     )}
                   </Form.Item>
                 </Col>
-                <Col xs={24} md={12}>
-                <Form.Item label="Forma de pagamento">
-                    {getFieldDecorator("method", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "Por favor, preencha esse campo!"
-                        }
-                      ]
-                    })(<Select 
-                          showSearch
-                          style={{ borderBottom: "1px solid #fff"}}
-                          name="method"
-                          placeholder="Selecione a forma de pagamento"
-                          >
-                        <Option value={1}>Crédito</Option>
-                        <Option value={2}>Débito</Option>
-                      </Select>)}
-                  </Form.Item>
-                </Col>
+                
               </Row>
             </Form>
-          </Col>
+          </Col></div>)}
+          {(method && method === 2) && (<Col xs={24} md={24}>
+          <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // margin: "15px 0px"
+              }}>
+            <Form.Item label="Banco" style={{width: '250px'}}>
+                {getFieldDecorator("cardBank", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Por favor, preencha esse campo!"
+                    }
+                  ]
+                })(<Select 
+                      showSearch
+                      style={{ borderBottom: "1px solid #fff"}}
+                      name="cardBank"
+                      placeholder="Selecione o banco"
+                      >
+                    <Option value={1}>Bradesco</Option>
+                    <Option value={2}>Itaú</Option>
+                    <Option value={3}>Banco do Brasil</Option>
+                    <Option value={4}>Banrisul</Option>
+                  </Select>)}
+              </Form.Item>
+              </div>
+            </Col>) }
         </Row>
         <Row style={{ marginTop: "40px" }}>
           <div className="questionario-container">
@@ -742,7 +803,7 @@ que deseja!"
                 <Row gutter={16}>
                   <Col xs={24}>
                     <Form.Item label="Nome completo">
-                      {getFieldDecorator("fullName", {
+                      {getFieldDecorator("name", {
                         rules: [
                           {
                             required: true,

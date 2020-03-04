@@ -21,3 +21,7 @@ code {
 .ant-select-search__field__placeholder, .ant-select-selection__placeholder {
   overflow: visible;
 }
+
+#questionario_method, #questionario_cardBank {
+  width: 280px;
+}
