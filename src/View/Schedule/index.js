@@ -219,7 +219,6 @@ class Schedule extends Component {
         submitLoadingToFalse();
       })
       .catch(function (error) {
-        console.log("Erro no agendamento",error);
         alert("Ocorreu um erro, tente novamente mais tarde.");
         submitLoadingToFalse();
       });
