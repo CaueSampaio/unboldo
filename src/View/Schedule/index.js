@@ -166,29 +166,19 @@ class Schedule extends Component {
       questionnaires.push({ question: "Nos conte em detalhes o que você espera ter no biquíni, como cor, modelo, referências, estampas ( caso for o modelo desejado) etc", answer: fields.q12 })
 
       let paymentData = {
-        method: method,
+        method: 1,
         senderHash: response.senderHash,
-      };
-      if(method === 1){
-        paymentData = {
-          ...paymentData,
-          cardNumber: number.replace(" ","").replace(" ","").replace(" ",""),
-          CardCVV: cvc,
-          CardExpirationMonth: expiry.substr(0,2),
-          CardExpirationYear: "20" + expiry.substr(3,2),
-          AddressStreet: fields.addressStreet,
-          addressNumber: fields.addressNumber,
-          addressDistrict: fields.addressDistrict,
-          addressPostalCode: fields.addressPostalCode,
-          addressCity: fields.addressCity,
-          addressState: fields.addressState,
-        }
-      } else {
-        paymentData = {
-          ...paymentData,
-          cardBank: fields.cardBank,
-        }
-      } 
+        cardNumber: number.replace(" ","").replace(" ","").replace(" ",""),
+        CardCVV: cvc,
+        CardExpirationMonth: expiry.substr(0,2),
+        CardExpirationYear: "20" + expiry.substr(3,2),
+        AddressStreet: fields.addressStreet,
+        addressNumber: fields.addressNumber,
+        addressDistrict: fields.addressDistrict,
+        addressPostalCode: fields.addressPostalCode,
+        addressCity: fields.addressCity,
+        addressState: fields.addressState,
+      }
       
       instance.post('schedules',
       {
@@ -602,46 +592,26 @@ que deseja!"
         <div className="field-label" style={{ marginTop: "30px" }}>
           Informações de pagamento
         </div>
-        <Row type="flex" justify="space-around" align="middle">
-          <Col xs={24} md={24}>
-          <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "0px 0px"
-              }}>
-            <Form.Item label="Forma de pagamento" style={{width: '250px'}}>
-                {getFieldDecorator("method", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Por favor, preencha esse campo!"
-                    }
-                  ]
-                })(<Select 
-                      onChange={(e) => { this.setState({ method: e })}}
-                      showSearch
-                      style={{ borderBottom: "1px solid #fff"}}
-                      name="method"
-                      placeholder="Selecione a forma de pagamento"
-                      >
-                    <Option value={1}>Crédito</Option>
-                    <Option value={2}>Débito online</Option>
-                  </Select>)}
-              </Form.Item>
-              </div>
-            </Col>
-           {method && method === 1 && 
-            (<div
-              
-            ><Col xs={12} md={12} lg={12}>
+        
+           <div
+          //  style={{
+          //       display: "flex",
+          //       justifyContent: "center",
+          //       alignItems: "center",
+          //       margin: "15px 0px"
+          //     }}
+          style={{
+            display: "block",
+            margin: "15px auto",
+            width: '80%'
+          }}
+              >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                margin: "15px 0px"
+                margin: "40px 0px 0px"
               }}
             >
               <Cards
@@ -654,8 +624,7 @@ que deseja!"
                 placeholder={{ name: "NOME SOBRENOME" }}
               />
             </div>
-          </Col> 
-           <Col xs={24} md={12}>
+           
             <Form style={{ marginTop: "0px" }}>
               <Row>
                 <Col xs={24}>
@@ -704,7 +673,7 @@ que deseja!"
                     )}
                   </Form.Item>
                 </Col>
-                <Col xs={24} md={12}>
+                <Col xs={24}>
                   <Form.Item style={{ marginRight: "10px" }} label="Validade">
                     {getFieldDecorator("expiry", {
                       rules: [
@@ -742,7 +711,7 @@ que deseja!"
                         type="text"
                         name="cvc"
                         className="form-control"
-                        placeholder="000"
+                        placeholder="CVV"
                         maxLength="4"
                         autoComplete="off"
                         onChange={this.handleInputChange}
@@ -753,39 +722,7 @@ que deseja!"
                 </Col>
                 
               </Row>
-            </Form>
-          </Col></div>)}
-          {(method && method === 2) && (<Col xs={24} md={24}>
-          <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                // margin: "15px 0px"
-              }}>
-            <Form.Item label="Banco" style={{width: '250px'}}>
-                {getFieldDecorator("cardBank", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Por favor, preencha esse campo!"
-                    }
-                  ]
-                })(<Select 
-                      showSearch
-                      style={{ borderBottom: "1px solid #fff"}}
-                      name="cardBank"
-                      placeholder="Selecione o banco"
-                      >
-                    <Option value={1}>Bradesco</Option>
-                    <Option value={2}>Itaú</Option>
-                    <Option value={3}>Banco do Brasil</Option>
-                    <Option value={4}>Banrisul</Option>
-                  </Select>)}
-              </Form.Item>
-              </div>
-            </Col>) }
-        </Row>
+            </Form></div>
         <Row style={{ marginTop: "40px" }}>
           <div className="questionario-container">
             <Col xs={24}>
