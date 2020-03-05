@@ -49,7 +49,7 @@ class Contact extends Component {
         message: fields.message, 
       })
       .then((response) => {
-        if(response.status === 200)
+        if(response.status === 200 || response.status === 204)
           alert("Sua mensagem foi enviada com sucesso!");
         else if(response.status === 422)
           alert(response.data.error);
