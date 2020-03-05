@@ -57,10 +57,6 @@
   transform-origin: 50% 50%;
 }
 
-.ant-radio-group {
-  display: none;
-}
-
 .ant-radio-button-wrapper {
   position: relative;
   color: #fff;
@@ -98,6 +94,10 @@
   font-feature-settings: "tnum";
   border-top: 0px solid #ffffff;
   outline: none;
+}
+
+.ant-fullcalendar-header>.ant-radio-group {
+  display: none;
 }
 
 .ant-fullcalendar-header {
@@ -176,7 +176,7 @@
   margin: 0 auto;
 }
 
-.horario > ol {
+.horario>ol {
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -187,7 +187,7 @@
   width: 100%;
 }
 
-.horario > ol > li > button {
+.horario>ol>li>button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -218,7 +218,7 @@
   border-color: #fff;
 }
 
-.horario > ol > li:hover {
+.horario>ol>li:hover {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -246,7 +246,7 @@
   font-feature-settings: "tnum";
 }
 
-.ant-form-item-label > label {
+.ant-form-item-label>label {
   color: rgb(45, 45, 45);
   font-weight: 500;
   font-family: "Montserrat", "Roboto", "Oxygen", sans-serif;
@@ -404,6 +404,7 @@
   border-radius: 0px;
   box-shadow: none;
 }
+
 .has-error .form-control:focus {
   background: rgba(255, 255, 255, 0);
   border-bottom: 1px solid #fff;
