@@ -254,7 +254,8 @@ class Schedule extends Component {
       measureModalVisible,
       policyModalVisible,
       submitLoading,
-      method,
+      initialHour, 
+      finalHour,
     } = this.state;
     const props = {
       name: "file",
@@ -376,6 +377,7 @@ class Schedule extends Component {
                 {(hour === undefined || hour === null || hour.length == 0) ? (<p>Nenhum horário disponível para esse dia.</p>) : hour.map(item => (
                   <li>
                     {item.available && <Button
+                      className={item.initialHour === initialHour ? "ant-btn-selected": ""}
                       onClick={(e) => {
                         this.setState({
                           initialHour: item.initialHour,

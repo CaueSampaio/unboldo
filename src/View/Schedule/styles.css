@@ -211,6 +211,12 @@
   border-color: #ffffff;
 }
 
+.ant-btn-selected {
+  color: #2d2d2d;
+  background-color: #fff;
+  border-color: #ffffff;
+}
+
 .ant-btn.active,
 .ant-btn:active {
   color: #2d2d2d;
